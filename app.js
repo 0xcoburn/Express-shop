@@ -40,6 +40,7 @@ app.use((req, res, next) => {
 	if (!req.session.user) {
 		return next();
 	}
+
 	User.findById(req.session.user._id)
 		.then((user) => {
 			req.user = user;
@@ -55,8 +56,10 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
+
 	.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then((result) => {
+
 		app.listen(3000);
 	})
 	.catch((err) => {

@@ -1,4 +1,6 @@
+
 const bcrypt = require('bcryptjs');
+
 
 const User = require('../models/user');
 
@@ -10,6 +12,7 @@ exports.getLogin = (req, res, next) => {
 	});
 };
 
+
 exports.getSignup = (req, res, next) => {
 	res.render('auth/signup', {
 		path: '/signup',
@@ -20,6 +23,7 @@ exports.getSignup = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
 	User.findById('5bab316ce0a7c75f783cb8a8')
+
 		.then((user) => {
 			req.session.isLoggedIn = true;
 			req.session.user = user;
@@ -55,6 +59,7 @@ exports.postSignup = async (req, res, next) => {
 		console.log(err);
 	}
 };
+
 
 exports.postLogout = (req, res, next) => {
 	req.session.destroy((err) => {
