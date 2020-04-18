@@ -11,9 +11,9 @@ const orderSchema = new Schema({
 		}
 	],
 	user: {
-		name: {
+		email: {
 			type: String,
-			require: true
+			required: true
 		},
 		userId: {
 			type: Schema.Types.ObjectId,
