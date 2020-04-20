@@ -46,6 +46,16 @@ exports.getSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
+
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.render('auth/login', {
+			path: '/login',
+			pageTitle: 'Login',
+			errorMessage: errors.array()[0].msg
+		});
+		return true;
+	}
 	User.findOne({ email: email })
 		.then((user) => {
 			if (!user) {
@@ -77,27 +87,17 @@ exports.postLogin = (req, res, next) => {
 exports.postSignup = async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
-	const confirmPassword = req.body.confirmPassword;
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		console.log(errors.array());
 		return res.status(422).render('auth/signup', {
 			path: '/signup',
 			pageTitle: 'Signup',
-			errorMessage: errors.array()
+			errorMessage: errors.array()[0].msg
 		});
 	}
 
 	try {
-		const userDoc = await User.findOne({ email: email });
-
-		if (userDoc) {
-			req.flash(
-				'error',
-				'Email already exists, please pick a different one'
-			);
-			return res.redirect('/signup');
-		}
 		const hashedPassword = await bcrypt.hash(password, 12);
 
 		const user = new User({
