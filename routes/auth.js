@@ -13,12 +13,14 @@ router.get('/signup', authController.getSignup);
 router.post(
 	'/login',
 	[
-		body('email').isEmail().withMessage('Please enter a valid email'),
-		body('password')
+		body('email')
+			.isEmail()
+			.withMessage('Please enter a valid email')
+			.normalizeEmail(),
+		body('password', 'Password has to be valid')
 			.isLength({ min: 5 })
-			.withMessage('Password must be atleast 5 charachters')
 			.isAlphanumeric()
-			.withMessage('Invalid password')
+			.trim()
 	],
 	authController.postLogin
 );
@@ -30,10 +32,6 @@ router.post(
 			.isEmail()
 			.withMessage('Please Enter a Valid Email.')
 			.custom((value, { req }) => {
-				// if (value === 'test@test.com') {
-				// 	throw new Error('This email address is forbidden');
-				// }
-				// return true;
 				return User.findOne({ email: value }).then((userDoc) => {
 					if (userDoc) {
 						return Promise.reject(
@@ -41,15 +39,17 @@ router.post(
 						);
 					}
 				});
-			}),
+			})
+			.normalizeEmail(),
 		body(
 			'password',
 			'Please enter a password with only numbers and text and at least 5 charchters.'
 		)
+			.trim()
 			.isLength({ min: 5 })
 			.isAlphanumeric(),
 
-		body('confirmPassword').custom((value, { req }) => {
+		body('confirmPassword').trim().custom((value, { req }) => {
 			if (value !== req.body.password) {
 				throw new Error('Passwords have to match!');
 			}
