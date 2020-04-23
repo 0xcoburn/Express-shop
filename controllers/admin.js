@@ -1,4 +1,6 @@
+
 const mongoose = require('mongoose');
+
 
 const { validationResult } = require('express-validator/check');
 
@@ -50,7 +52,7 @@ exports.postAddProduct = (req, res, next) => {
 		imageUrl: imageUrl,
 		userId: req.user
 	});
-
+  
 	product
 		.save()
 		.then((result) => {
