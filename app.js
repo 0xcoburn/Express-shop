@@ -44,6 +44,7 @@ const fileFilter = (req, file, cb) => {
 		cb(null, false);
 	}
 };
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -99,6 +100,7 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
+	console.log(error);
 	res.redirect('/500');
 });
 
