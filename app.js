@@ -111,7 +111,10 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-	.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	})
 	.then((result) => {
 		app.listen(3000);
 	})
