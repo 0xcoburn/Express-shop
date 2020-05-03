@@ -17,6 +17,8 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 //parses our multi part image data
 const multer = require("multer");
+//.env
+require("dotenv").config();
 
 //controll errors
 const errorController = require("./controllers/error");
@@ -24,8 +26,7 @@ const errorController = require("./controllers/error");
 const User = require("./models/user");
 
 //connection URI
-const MONGODB_URI =
-  "mongodb+srv://coburn24:jo9zf2mqCZYKnuVw@cluster0-xppk5.mongodb.net/shop";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 //create our instance
 const app = express();
@@ -151,7 +152,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((result) => {
-    app.listen(3000);
+    app.listen(4000);
   })
   .catch((err) => {
     console.log(err);
